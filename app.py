@@ -9,27 +9,19 @@ import matplotlib.pyplot as plt
 with open("config.yaml") as file:
     config = yaml.load(file, Loader=SafeLoader)
 
-# 必要に応じて、expiry_days が int になっていることを確認（通常は数値として認識されます）
-cookie_config = config['cookie']
-cookie_config['expiry_days'] = int(cookie_config['expiry_days'])
+# cookie の expiry_days を明示的に int に変換
+expiry_days = int(config['cookie']['expiry_days'])
 
 # --- 認証オブジェクトの作成 ---
-# v0.4.2 以降は cookie 関連の情報をまとめた辞書を渡す
 authenticator = stauth.Authenticate(
     config['credentials'],
-    cookie_config
+    config['cookie']['name'],
+    expiry_days,
+    config['cookie']['key']
 )
 
-# --- ログイン処理 ---
-name, authentication_status, username = authenticator.login(
-    location="main",
-    fields={
-        'Form name': 'Login', 
-        'Username': 'Username', 
-        'Password': 'Password', 
-        'Login': 'Login'
-    }
-)
+# --- ログイン処理（カスタムフィールドなし） ---
+name, authentication_status, username = authenticator.login(location="main")
 
 # --- 認証結果に応じた処理 ---
 if authentication_status:
