@@ -6,5 +6,5 @@ credentials:
       password: "$2b$12$5k1ueFP3NfmKqaVOBspyBumxTpy.P801fZXDHfnL4Aq7FH7rlY7yW"
 cookie:
   expiry_days: 3
-  key: test_app_key
-  name: test_app_cookie
+  key: "test_app_key"
+  name: "test_app_cookie"
