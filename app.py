@@ -17,7 +17,8 @@ authenticator = stauth.Authenticate(
     config['credentials'],
     config['cookie']['name'],
     expiry_days,
-    config['cookie']['key']
+    str(config['cookie']['key'])
+)
 )
 
 # --- ログイン処理（カスタムフィールドなし） ---
