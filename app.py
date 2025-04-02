@@ -9,21 +9,24 @@ import matplotlib.pyplot as plt
 with open("config.yaml") as file:
     config = yaml.load(file, Loader=SafeLoader)
 
+# cookie の expiry_days を明示的に int に変換
+expiry_days = int(config['cookie']['expiry_days'])
+
 # --- 認証オブジェクトの作成 ---
 authenticator = stauth.Authenticate(
     config['credentials'],
     config['cookie']['name'],
-    int(config['cookie']['expiry_days']),
+    expiry_days,
     config['cookie']['key']
 )
 
-# --- ログイン処理 ---
+# --- ログイン処理（フォームのフィールドをカスタマイズ） ---
 name, authentication_status, username = authenticator.login(
     location="main",
     fields={
-        'Form name': 'Login', 
-        'Username': 'Username', 
-        'Password': 'Password', 
+        'Form name': 'Login',
+        'Username': 'Username',
+        'Password': 'Password',
         'Login': 'Login'
     }
 )
@@ -32,6 +35,7 @@ name, authentication_status, username = authenticator.login(
 if authentication_status:
     authenticator.logout("Logout", location="sidebar")
     st.sidebar.success(f"ようこそ、{name} さん")
+
     st.title("日経平均チャート表示アプリ")
     st.write("以下のボタンを押すと、日経平均の過去30日チャートが表示されます。")
 
