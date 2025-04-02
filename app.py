@@ -19,7 +19,6 @@ authenticator = stauth.Authenticate(
     expiry_days,
     str(config['cookie']['key'])
 )
-)
 
 # --- ログイン処理（カスタムフィールドなし） ---
 name, authentication_status, username = authenticator.login(location="main")
